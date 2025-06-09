@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {QuestionModel} from "../../models/question.model";
 import {QuestionHttpService} from "../../services/http/question.http.service";
 import {AnswerModel} from "../../models/answer.model";
+import {ReportModel} from "../../models/report.model";
+import {ReportHttpService} from "../../services/http/report.http.service";
 
 @Component({
   selector: 'app-quiz',
@@ -10,6 +12,9 @@ import {AnswerModel} from "../../models/answer.model";
   styleUrl: './quiz.component.scss'
 })
 export class QuizComponent implements OnInit {
+
+  private startDate: Date;
+  private quizId: number;
 
   currentQuestion: QuestionModel;
 
@@ -20,6 +25,7 @@ export class QuizComponent implements OnInit {
   isFinish: boolean = false;
 
   constructor(private readonly quizHttpService: QuestionHttpService,
+              private readonly reportHttpService: ReportHttpService,
               private readonly activatedRoute: ActivatedRoute,
               private readonly router: Router) {}
 
@@ -28,11 +34,13 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.quizHttpService.getQuestionList(this.activatedRoute.snapshot.params['quizId'])
+    this.quizId = this.activatedRoute.snapshot.params['quizId'];
+    this.quizHttpService.getQuestionList(this.quizId)
       .subscribe(questions => {
         this.questions = questions;
         this.currentQuestion = questions[0];
       })
+    this.startDate = new Date();
   }
 
   isRight(answer: AnswerModel): boolean {
@@ -42,7 +50,21 @@ export class QuizComponent implements OnInit {
   }
 
   saveReport(): void {
-    // save
+      let booleans = this.questions.map(it => it.selectedAnswer.correct).filter(it => it);
+      const score = booleans.length * 100 / this.questions.length;
+      const report: ReportModel = {
+        startDate: this.startDate,
+        endDate: new Date(),
+        quizId: this.quizId,
+        userEmail: '',
+        userName: '',
+        userId: '',
+        userIp: '',
+        userPhone: '',
+        score
+      };
+      console.log(score);
+      this.reportHttpService.saveReport(report).subscribe();
   }
 
   chose(answer: AnswerModel): void {

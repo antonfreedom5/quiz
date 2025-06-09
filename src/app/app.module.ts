@@ -14,6 +14,7 @@ import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {QuizListComponent} from "./pages/quiz-list/quiz-list.component";
 import {CategoryHttpService} from "./services/http/category.http.service";
 import {QuestionHttpService} from "./services/http/question.http.service";
+import {ReportHttpService} from "./services/http/report.http.service";
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {QuestionHttpService} from "./services/http/question.http.service";
   providers: [
     QuizHttpService,
     CategoryHttpService,
-    QuestionHttpService
+    QuestionHttpService,
+    ReportHttpService
   ],
   bootstrap: [
     AppComponent
