@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gims
+    username: postgres
+    password: sa
+  jpa:
+    hibernate:
+      ddl-auto: none
