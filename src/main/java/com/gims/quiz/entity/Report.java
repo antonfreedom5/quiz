@@ -31,7 +31,5 @@ public class Report {
 
     private LocalDateTime endDate;
 
-    private String duration;
-
     private String score;
 }
