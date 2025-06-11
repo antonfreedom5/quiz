@@ -9,3 +9,13 @@ body {
   margin: 0 auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+@media (max-width: 768px) {
+  body {
+    width: 100%;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+}

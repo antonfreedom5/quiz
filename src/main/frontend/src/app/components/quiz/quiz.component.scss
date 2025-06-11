@@ -33,8 +33,9 @@
       justify-content: space-between;
 
       img {
-        min-width: 250px;
-        margin-right: 60px;
+        //min-width: 250px;
+        max-width: 50%;
+        margin-right: 40px;
       }
 
       ul {
