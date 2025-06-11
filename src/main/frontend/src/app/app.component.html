@@ -1,0 +1,23 @@
+<header class="header" (click)="goHome()">
+  <span>ГИМС</span>
+  <nav>
+    <a (click)="goReports()">Статистика</a>
+  </nav>
+</header>
+<main class="main">
+  <div class="left"><router-outlet></router-outlet></div>
+  <aside class="right">
+    <div>
+      <h3>Рекомендации</h3>
+      <p>Всегда надевайте спасательный жилет.</p>
+      <p>Изучайте погодные условия перед выходом в плавание.</p>
+    </div>
+    <div>
+      <h3>Реклама</h3>
+      <p>Курсы подготовки судоводителей от 999₽</p>
+    </div>
+  </aside>
+</main>
+<footer class="footer">
+  © 2025 Обучение управлению водным транспортом
+</footer>

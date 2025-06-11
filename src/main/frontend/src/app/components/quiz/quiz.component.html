@@ -1,0 +1,38 @@
+<div class="quiz-block" *ngIf="!isFinish else reportTemplate">
+
+  <div class="quiz-header">
+    <span>Отвечено на {{currentIndex}} из {{questions?.length}}</span>
+    <button mat-raised-button (click)="saveReport()">Закончить</button>
+  </div>
+
+  <div class="quiz-question-block">
+    <div class="quiz-question">{{currentQuestion?.question}}</div>
+
+    <div class="quiz-answer">
+      <img *ngIf="currentQuestion?.questionImage" [src]="currentQuestion?.questionImage" alt="">
+      <ul>
+        <li *ngFor="let answer of currentQuestion?.answers"
+            [ngClass]="{answered: !!currentQuestion?.selectedAnswer, wrong: answer == currentQuestion?.selectedAnswer && !currentQuestion.selectedAnswer.correct, right: isRight(answer)}"
+            (click)="chose(answer)">
+          <img *ngIf="answer.image" [src]="answer.image" alt="">
+          <span>{{answer.answer}}</span>
+          <span *ngIf="isRight(answer)">{{answer.placeholder}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="quiz-buttons">
+      <button mat-raised-button *ngIf="!areAllQuestionsAnswered" (click)="next()">Следующий вопрос</button>
+      <button mat-raised-button color="primary" *ngIf="areAllQuestionsAnswered" (click)="saveReport()">Закончить</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #reportTemplate>
+  <p>Правильных ответов {{ rightAnswerCount }} из {{questions.length}}</p>
+  <p>Продолжительность: {{ report.duration }} секунд</p>
+  <div class="quiz-buttons">
+    <button mat-raised-button (click)="startAgain()">Пройти заново</button>
+    <button mat-raised-button (click)="chooseAnotherQuiz()">Выбрать другой тест</button>
+  </div>
+</ng-template>

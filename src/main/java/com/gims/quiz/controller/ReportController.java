@@ -1,5 +1,6 @@
 package com.gims.quiz.controller;
 
+import com.gims.quiz.dto.ReportDto;
 import com.gims.quiz.entity.Report;
 import com.gims.quiz.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class ReportController {
     }
 
     @PostMapping("/save")
-    public void save(@RequestBody Report report) {
+    public void save(@RequestBody ReportDto report) {
         reportService.save(report);
     }
 }

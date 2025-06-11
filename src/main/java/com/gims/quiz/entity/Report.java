@@ -17,7 +17,7 @@ public class Report {
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
-    private Integer userId;
+    private int userId;
 
     private String userIp;
 
@@ -31,5 +31,5 @@ public class Report {
 
     private LocalDateTime endDate;
 
-    private String score;
+    private int score;
 }

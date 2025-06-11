@@ -1,0 +1,10 @@
+<div>
+  <p>Тесты:</p>
+  <ul>
+    <li *ngFor="let quiz of quizList | async" (click)="navigate(quiz.id)">
+      <span>{{quiz.title}}</span>
+      <span>{{quiz.description}}</span>
+      <img [src]="quiz.image" alt=""/>
+    </li>
+  </ul>
+</div>

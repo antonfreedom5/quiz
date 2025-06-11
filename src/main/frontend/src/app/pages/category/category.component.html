@@ -1,0 +1,9 @@
+<div>
+  <p>Категории:</p>
+  <ul>
+    <li *ngFor="let category of categories | async" (click)="navigate(category.id)">
+      <span>{{category.title}}</span>
+      <span>{{category.description}}</span>
+    </li>
+  </ul>
+</div>

@@ -2,7 +2,10 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/gims
     username: postgres
-    password: sa
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: none
+
+server:
+  port: 8090

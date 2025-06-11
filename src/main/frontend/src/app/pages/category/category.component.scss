@@ -1,0 +1,19 @@
+:host {
+  ul {
+    width: 100%;
+    padding: 0;
+
+    li {
+      margin: 5px;
+      padding: 15px;
+      list-style-type: none;
+      border: 1px solid #e5f6f0;
+      border-radius: 5px;
+
+      &:hover:not(.answered) {
+        cursor: pointer;
+        background-color: #e5f6f0;
+      }
+    }
+  }
+}
