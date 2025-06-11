@@ -20,6 +20,11 @@ body {
   }
 
   .quiz-answer {
-    flex-direction: column
+    flex-direction: column;
+
+    img {
+      max-width: 100% !important;
+      margin-right: 0 !important;
+    }
   }
 }
