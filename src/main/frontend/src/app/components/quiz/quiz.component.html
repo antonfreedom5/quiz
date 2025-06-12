@@ -2,6 +2,7 @@
 
   <div class="quiz-header">
     <span>Отвечено на {{currentIndex}} из {{questions?.length}}</span>
+    <cd-timer *ngIf="quiz?.exam" [countdown]="true" format="intelli" [startTime]="EXAM_TIME_SECONDS" (onComplete)="stopTime()"></cd-timer>
     <button mat-raised-button (click)="saveReport()">Закончить</button>
   </div>
 
@@ -29,10 +30,30 @@
 </div>
 
 <ng-template #reportTemplate>
-  <p>Правильных ответов {{ rightAnswerCount }} из {{questions.length}}</p>
-  <p>Продолжительность: {{ report.duration }} секунд</p>
-  <div class="quiz-buttons">
+  <div *ngIf="quiz.exam && wrongAnswerCount >= 2">
+    <p class="exam-failed">Экзамен провален</p>
+    <p>Во время экзамена допускается совершить только одну ошибку</p>
     <button mat-raised-button (click)="startAgain()">Пройти заново</button>
-    <button mat-raised-button (click)="chooseAnotherQuiz()">Выбрать другой тест</button>
+  </div>
+
+  <div *ngIf="quiz.exam && wrongAnswerCount < 2 && !isTimeEnd">
+    <p class="exam-passed">Экзамен пройден</p>
+    <p>Правильных ответов {{ rightAnswerCount }} из {{questions.length}}</p>
+    <p>Продолжительность: {{ report.duration }} секунд</p>
+    <button mat-raised-button (click)="startAgain()">Пройти заново</button>
+  </div>
+
+  <div *ngIf="quiz.exam && isTimeEnd">
+    <p>Не хватило совсем чуть-чуть :(</p>
+    <button mat-raised-button (click)="startAgain()">Пройти заново</button>
+  </div>
+
+  <div *ngIf="!quiz.exam">
+    <p>Правильных ответов {{ rightAnswerCount }} из {{questions.length}}</p>
+    <p>Продолжительность: {{ report.duration }} секунд</p>
+    <div class="quiz-buttons">
+      <button mat-raised-button (click)="startAgain()">Пройти заново</button>
+      <button mat-raised-button (click)="chooseAnotherQuiz()">Выбрать другой тест</button>
+    </div>
   </div>
 </ng-template>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QuizHttpService} from "../../services/http/quiz.http.service";
-import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {QuizModel} from "../../models/quiz.model";
 

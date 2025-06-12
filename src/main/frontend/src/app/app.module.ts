@@ -20,7 +20,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { ReportsComponent } from "./pages/reports/reports.component";
 import { MatTableModule } from "@angular/material/table";
-import { MatGridListModule } from "@angular/material/grid-list";
+import {CdTimerModule} from "angular-cd-timer";
 
 @NgModule({
   imports: [
@@ -33,7 +33,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
     MatButtonModule,
     MatListModule,
     MatTableModule,
-    MatGridListModule
+    CdTimerModule
   ],
   declarations: [
     AppComponent,

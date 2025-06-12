@@ -30,6 +30,8 @@ public class Quiz {
 
     private boolean published;
 
+    private boolean exam;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(

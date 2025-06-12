@@ -20,6 +20,11 @@ public class QuizController {
         return this.quizService.getAll();
     }
 
+    @GetMapping("/{id}")
+    public Quiz getById(@PathVariable Long id) {
+        return this.quizService.getById(id).orElseThrow();
+    }
+
     @GetMapping("/category/{id}")
     public List<Quiz> getAllByCategoryId(@PathVariable Long id) {
         return this.quizService.getByCategoryId(id);

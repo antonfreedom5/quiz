@@ -3,4 +3,5 @@ export interface QuizModel {
   title: string;
   description: string;
   image: string;
+  exam: boolean;
 }

@@ -12,4 +12,8 @@ export class QuizHttpService {
     public getQuizList = (categoryId: number): Observable<QuizModel[]> => {
       return this.httpClient.get<QuizModel[]>(this.HTTP_PATH + '/category/' + categoryId);
     }
+
+  public getQuizById = (quizId: number): Observable<QuizModel> => {
+    return this.httpClient.get<QuizModel>(this.HTTP_PATH + '/' + quizId);
+  }
 }

@@ -5,6 +5,8 @@ import {QuestionHttpService} from "../../services/http/question.http.service";
 import {AnswerModel} from "../../models/answer.model";
 import {ReportModel} from "../../models/report.model";
 import {ReportHttpService} from "../../services/http/report.http.service";
+import {QuizHttpService} from "../../services/http/quiz.http.service";
+import {QuizModel} from "../../models/quiz.model";
 
 @Component({
   selector: 'app-quiz',
@@ -12,24 +14,27 @@ import {ReportHttpService} from "../../services/http/report.http.service";
   styleUrl: './quiz.component.scss'
 })
 export class QuizComponent implements OnInit {
-
-  private startDate: Date;
+  public readonly EXAM_TIME_SECONDS: number = 600;
+  public isTimeEnd = false;
+  public startDate: Date;
   private quizId: number;
   public isFinish = false;
   public report: ReportModel;
   public rightAnswerCount = 0;
+  public wrongAnswerCount = 0;
 
-  currentQuestion: QuestionModel;
+  public currentQuestion: QuestionModel;
+  public questions: QuestionModel[];
+  public quiz: QuizModel;
 
-  questions: QuestionModel[];
-
-  constructor(private readonly quizHttpService: QuestionHttpService,
+  constructor(private readonly questionHttpService: QuestionHttpService,
+              private readonly quizHttpService: QuizHttpService,
               private readonly reportHttpService: ReportHttpService,
               private readonly activatedRoute: ActivatedRoute,
               private readonly router: Router) {}
 
   get currentIndex(): number {
-    return this.questions ? this.questions.indexOf(this.currentQuestion) + 1 : 1;
+    return this.questions ? this.questions.indexOf(this.currentQuestion) : 0;
   }
 
   get areAllQuestionsAnswered(): boolean {
@@ -38,11 +43,15 @@ export class QuizComponent implements OnInit {
 
   ngOnInit() {
     this.quizId = +this.activatedRoute.snapshot.params['quizId'];
-    this.quizHttpService.getQuestionList(this.quizId)
+    this.quizHttpService.getQuizById(this.quizId)
+      .subscribe(quiz => {
+        this.quiz = quiz;
+      });
+    this.questionHttpService.getQuestionList(this.quizId)
       .subscribe(questions => {
         this.questions = questions;
         this.currentQuestion = questions[0];
-      })
+      });
     this.startDate = new Date();
   }
 
@@ -56,14 +65,13 @@ export class QuizComponent implements OnInit {
     this.router.navigate(['category']).finally();
   }
 
-  isRight(answer: AnswerModel): boolean {
+  public isRight(answer: AnswerModel): boolean {
     return this.currentQuestion.selectedAnswer
       && ((answer == this.currentQuestion.selectedAnswer && this.currentQuestion.selectedAnswer.correct)
         || (answer != this.currentQuestion.selectedAnswer && answer.correct));
   }
 
   public saveReport(): void {
-      this.rightAnswerCount = this.questions.map(it => it.selectedAnswer?.correct).filter(it => it).length;
       const score = this.rightAnswerCount * 100 / this.questions.length;
       const endDate = new Date();
       this.report = {
@@ -86,6 +94,12 @@ export class QuizComponent implements OnInit {
   public chose(answer: AnswerModel): void {
       if (!this.currentQuestion.selectedAnswer) {
         this.currentQuestion.selectedAnswer = answer;
+
+        answer.correct ? this.rightAnswerCount++ : this.wrongAnswerCount++;
+
+        if (this.quiz.exam && this.wrongAnswerCount >= 2) {
+          this.isFinish = true;
+        }
       }
   }
 
@@ -98,5 +112,10 @@ export class QuizComponent implements OnInit {
       } else {
         this.currentQuestion = this.questions[index + 1];
       }
+  }
+
+  public stopTime(): void {
+    this.isFinish = true;
+    this.isTimeEnd = true;
   }
 }

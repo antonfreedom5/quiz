@@ -14,6 +14,18 @@
     background-color: #4d9c04;
   }
 
+  .exam-failed {
+    padding: 10px;
+    background-color: #e40011;
+    border-radius: 5px;
+  }
+
+  .exam-passed {
+    padding: 10px;
+    background-color: #4d9c04;
+    border-radius: 5px;
+  }
+
   .quiz-header {
     display: flex;
     justify-content: space-between;
