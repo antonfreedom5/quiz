@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {QuestionModel} from "../../models/question.model";
 import {QuestionHttpService} from "../../services/http/question.http.service";
@@ -14,6 +14,9 @@ import {QuizModel} from "../../models/quiz.model";
   styleUrl: './quiz.component.scss'
 })
 export class QuizComponent implements OnInit {
+
+  @ViewChildren('cardRef') cardRefs!: QueryList<ElementRef>;
+
   public readonly EXAM_TIME_SECONDS: number = 600;
   public isTimeEnd = false;
   public startDate: Date;
@@ -26,20 +29,13 @@ export class QuizComponent implements OnInit {
   public currentQuestion: QuestionModel;
   public questions: QuestionModel[];
   public quiz: QuizModel;
+  public currentIndex = 0;
 
   constructor(private readonly questionHttpService: QuestionHttpService,
               private readonly quizHttpService: QuizHttpService,
               private readonly reportHttpService: ReportHttpService,
               private readonly activatedRoute: ActivatedRoute,
               private readonly router: Router) {}
-
-  get currentIndex(): number {
-    return this.questions ? this.questions.indexOf(this.currentQuestion) : 0;
-  }
-
-  get areAllQuestionsAnswered(): boolean {
-    return this.questions && this.questions.every(it => it.selectedAnswer);
-  }
 
   ngOnInit() {
     this.quizId = +this.activatedRoute.snapshot.params['quizId'];
@@ -55,6 +51,10 @@ export class QuizComponent implements OnInit {
     this.startDate = new Date();
   }
 
+  public selectQuestion = (index: number): void => {
+    this.currentQuestion = this.questions[index];
+  }
+
   public startAgain = ():void => {
     this.router.navigate(['/']).finally(() => {
       this.router.navigate(['quiz', this.quizId])
@@ -65,7 +65,7 @@ export class QuizComponent implements OnInit {
     this.router.navigate(['category']).finally();
   }
 
-  public isRight(answer: AnswerModel): boolean {
+  public isRightAnswer(answer: AnswerModel): boolean {
     return this.currentQuestion.selectedAnswer
       && ((answer == this.currentQuestion.selectedAnswer && this.currentQuestion.selectedAnswer.correct)
         || (answer != this.currentQuestion.selectedAnswer && answer.correct));
@@ -96,22 +96,47 @@ export class QuizComponent implements OnInit {
         this.currentQuestion.selectedAnswer = answer;
 
         answer.correct ? this.rightAnswerCount++ : this.wrongAnswerCount++;
-
-        if (this.quiz.exam && this.wrongAnswerCount >= 2) {
-          this.isFinish = true;
-        }
       }
   }
 
-  public next(): void {
-      const index = this.questions.indexOf(this.currentQuestion);
-      if (!this.currentQuestion.selectedAnswer) {
-        this.questions = this.questions.filter(it => it.id !== this.currentQuestion.id);
-        this.questions.push(this.currentQuestion);
-        this.currentQuestion = this.questions[index];
-      } else {
-        this.currentQuestion = this.questions[index + 1];
+  public next(cardRefs: QueryList<ElementRef>): void {
+    if (this.quiz.exam && this.wrongAnswerCount >= 2) {
+      this.isFinish = true;
+    }
+    for (let i = this.currentIndex + 1; i < this.questions.length; i++) {
+      if (!this.isAnswered(this.questions[i])) {
+        this.updateCurrentQuestion(cardRefs, i);
+        return;
       }
+    }
+    for (let i = 0; i < this.currentIndex; i++) {
+      if (!this.isAnswered(this.questions[i])) {
+        this.updateCurrentQuestion(cardRefs, i);
+        return;
+      }
+    }
+    this.isFinish = true;
+  }
+
+  private updateCurrentQuestion = (cardRefs: QueryList<ElementRef>, index: number): void => {
+    if (!this.isAnswered(this.questions[index])) {
+      this.currentIndex = index;
+      this.currentQuestion = this.questions[this.currentIndex];
+      const element = cardRefs.toArray()[index]?.nativeElement;
+      element?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+
+  public isAnswered = (question: QuestionModel): boolean => {
+    return !!question.selectedAnswer;
+  }
+
+  public isWrong = (question: QuestionModel): boolean => {
+    return !!question.selectedAnswer && !question.selectedAnswer.correct;
+  }
+
+  public isRight = (question: QuestionModel): boolean => {
+    return !!question.selectedAnswer && question.selectedAnswer.correct;
   }
 
   public stopTime(): void {

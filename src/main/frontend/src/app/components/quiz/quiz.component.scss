@@ -1,17 +1,26 @@
 :host {
 
   .quiz-buttons {
+    .quiz-button {
+      background-color: #007aff;
+      color: white;
+      padding: 14px 32px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 24px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-align: center;
+
+      &:hover {
+        background-color: #0051c7;
+      }
+    }
+
     button {
       margin-right: 15px;
     }
-  }
-
-  .wrong {
-    background-color: #e40011;
-  }
-
-  .right {
-    background-color: #4d9c04;
   }
 
   .exam-failed {
@@ -22,15 +31,98 @@
 
   .exam-passed {
     padding: 10px;
-    background-color: #4d9c04;
+    background-color: #28a745;
     border-radius: 5px;
   }
 
   .quiz-header {
-    display: flex;
-    justify-content: space-between;
+    //display: flex;
+    //justify-content: space-between;
     margin-bottom: 20px;
-    padding: 10px;
+
+    .quiz-name {
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+    }
+
+    .question-carousel {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;          // ❗ Запрещаем перенос
+      overflow-x: auto;           // ✅ Горизонтальная прокрутка
+      overflow-y: hidden;
+      width: 100%;
+      box-sizing: border-box;
+      gap: 6px;
+
+      .question-card {
+        flex: 0 0 auto;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #e5f6f0;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        transition: 0.2s;
+
+        &:hover:not(.selected,.wrong,.right) {
+          background-color: #0A84FF22;
+        }
+      }
+
+      .question-card.selected {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+      }
+
+      /* Карточка с ответом */
+      .question-card.answered {
+        background: #28a745; /* зелёный */
+        color: white;
+        border-color: #28a745;
+      }
+
+      .question-card.wrong {
+        background: #dc3545; /* зелёный */
+        color: white;
+        border-color: #dc3545;
+      }
+
+      .question-card.right {
+        background: #28a745; /* зелёный */
+        color: white;
+        border-color: #28a745;
+      }
+
+      .question-card input[type="radio"] {
+        display: none;
+      }
+
+      //.question-card input[type="radio"]:checked + span,
+      //.question-card:has(input[type="radio"]:checked) {
+      //  background-color: #e5f6f0;
+      //  border-color: #e5f6f0;
+      //}
+
+      .question-index {
+        flex: 0 0 auto;             // ❗ Не растягиваться
+        width: 32px;                // ✅ Фиксированная ширина
+        height: 32px;
+        border: 1px solid #e5f6f0;
+        background-color: #e5f6f0;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
   }
 
   .quiz-question-block {
@@ -55,15 +147,31 @@
         padding: 0;
 
         li {
-          margin: 5px;
-          padding: 15px;
+          font-size: 16px;
+          margin-bottom: 12px;
+          padding: 14px 18px;
           list-style-type: none;
-          border: 1px solid #e5f6f0;
-          border-radius: 5px;
+          border: 2px solid transparent;
+          border-radius: 10px;
+          color: #1c1c1e;
 
           &:hover:not(.answered) {
             cursor: pointer;
             background-color: #e5f6f0;
+          }
+
+          &.wrong {
+            color: white;
+            background-color: #dc3545;
+            border-color: #dc3545;
+            transition: all 0.1s ease-in-out;
+          }
+
+          &.right {
+            color: white;
+            background-color: #28a745;
+            border-color: #28a745;
+            transition: all 0.1s ease-in-out;
           }
         }
       }
