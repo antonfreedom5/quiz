@@ -10,7 +10,7 @@ import {QuizModel} from "../../models/quiz.model";
   styleUrl: './quiz-list.component.scss'
 })
 export class QuizListComponent implements OnInit {
-  quizList: Observable<QuizModel[]> = this.quizHttpService.getQuizList(this.activatedRoute.snapshot.params['categoryId']);
+  quizList: Observable<QuizModel[]> = this.quizHttpService.getQuizList(1);
 
   constructor(private readonly quizHttpService: QuizHttpService,
               private readonly activatedRoute: ActivatedRoute,

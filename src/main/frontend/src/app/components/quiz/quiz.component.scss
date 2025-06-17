@@ -36,8 +36,6 @@
   }
 
   .quiz-header {
-    //display: flex;
-    //justify-content: space-between;
     margin-bottom: 20px;
 
     .quiz-name {
@@ -49,8 +47,8 @@
     .question-carousel {
       display: flex;
       flex-direction: row;
-      flex-wrap: nowrap;          // ❗ Запрещаем перенос
-      overflow-x: auto;           // ✅ Горизонтальная прокрутка
+      flex-wrap: nowrap;
+      overflow-x: auto;
       overflow-y: hidden;
       width: 100%;
       box-sizing: border-box;
@@ -81,21 +79,20 @@
         border-color: #007bff;
       }
 
-      /* Карточка с ответом */
       .question-card.answered {
-        background: #28a745; /* зелёный */
+        background: #28a745;
         color: white;
         border-color: #28a745;
       }
 
       .question-card.wrong {
-        background: #dc3545; /* зелёный */
+        background: #dc3545;
         color: white;
         border-color: #dc3545;
       }
 
       .question-card.right {
-        background: #28a745; /* зелёный */
+        background: #28a745;
         color: white;
         border-color: #28a745;
       }
@@ -104,15 +101,9 @@
         display: none;
       }
 
-      //.question-card input[type="radio"]:checked + span,
-      //.question-card:has(input[type="radio"]:checked) {
-      //  background-color: #e5f6f0;
-      //  border-color: #e5f6f0;
-      //}
-
       .question-index {
-        flex: 0 0 auto;             // ❗ Не растягиваться
-        width: 32px;                // ✅ Фиксированная ширина
+        flex: 0 0 auto;
+        width: 32px;
         height: 32px;
         border: 1px solid #e5f6f0;
         background-color: #e5f6f0;
@@ -151,13 +142,13 @@
           margin-bottom: 12px;
           padding: 14px 18px;
           list-style-type: none;
-          border: 2px solid transparent;
+          border: 1px solid #e5f6f0;
           border-radius: 10px;
           color: #1c1c1e;
 
           &:hover:not(.answered) {
             cursor: pointer;
-            background-color: #e5f6f0;
+            background-color: #0A84FF22;
           }
 
           &.wrong {

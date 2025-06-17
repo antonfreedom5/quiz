@@ -1,4 +1,8 @@
 :host {
+  p {
+    font-size: 20px;
+  }
+
   ul {
     width: 100%;
     padding: 0;
@@ -6,7 +10,7 @@
     li {
       display: flex;
       flex-direction: column;
-      margin: 5px;
+      margin: 5px 0;
       padding: 15px;
       list-style-type: none;
       border: 1px solid #e5f6f0;
@@ -18,7 +22,7 @@
 
       &:hover:not(.answered) {
         cursor: pointer;
-        background-color: #e5f6f0;
+        background-color: #0A84FF22;
       }
     }
   }

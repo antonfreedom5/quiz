@@ -8,14 +8,14 @@ import { ReportsComponent } from "./pages/reports/reports.component";
 
 export const routes: Routes = [
   { path: 'category', component: CategoryComponent },
-  { path: 'quiz-list/:categoryId', component: QuizListComponent },
+  { path: 'quiz-list', component: QuizListComponent },
   { path: 'quiz/:quizId', component: QuizComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent },
   {
     path: "**",
-    redirectTo: "category",
+    redirectTo: "quiz-list",
     pathMatch: "full",
   },
 ]

@@ -1,5 +1,6 @@
 <div>
-  <p>Тесты:</p>
+  <h2>Экзаменационные Билеты Гимс РБ</h2>
+  <h3>Вопросы и ответы для самоподготовки на водные права</h3>
   <ul>
     <li *ngFor="let quiz of quizList | async" (click)="navigate(quiz.id)">
       <span class="quiz-title">{{quiz.title}}</span>

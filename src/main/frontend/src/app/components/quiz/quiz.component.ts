@@ -52,6 +52,9 @@ export class QuizComponent implements OnInit {
   }
 
   public selectQuestion = (index: number): void => {
+    if (this.quiz.exam && this.wrongAnswerCount >= 2) {
+      this.isFinish = true;
+    }
     this.currentQuestion = this.questions[index];
   }
 
@@ -72,8 +75,8 @@ export class QuizComponent implements OnInit {
   }
 
   public saveReport(): void {
-      const score = this.rightAnswerCount * 100 / this.questions.length;
-      const endDate = new Date();
+      const score: number = this.rightAnswerCount * 100 / this.questions.length;
+      const endDate: Date = new Date();
       this.report = {
         startDate: this.startDate,
         endDate,
@@ -115,7 +118,7 @@ export class QuizComponent implements OnInit {
         return;
       }
     }
-    this.isFinish = true;
+    // this.saveReport();
   }
 
   private updateCurrentQuestion = (cardRefs: QueryList<ElementRef>, index: number): void => {
