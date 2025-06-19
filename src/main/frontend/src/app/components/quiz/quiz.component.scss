@@ -1,6 +1,16 @@
 :host {
 
+  h2, p {
+    margin: 0;
+  }
+
+  button {
+    margin-top: 20px;
+  }
+
   .quiz-buttons {
+    margin-bottom: 20px;
+
     .quiz-button {
       background-color: #007aff;
       color: white;
@@ -8,7 +18,6 @@
       font-size: 16px;
       border: none;
       border-radius: 10px;
-      margin-top: 24px;
       cursor: pointer;
       transition: background 0.3s;
       text-align: center;
@@ -25,13 +34,22 @@
 
   .exam-failed {
     padding: 10px;
-    background-color: #e40011;
+    color: white;
+    background-color: #dc3545;
     border-radius: 5px;
   }
 
   .exam-passed {
     padding: 10px;
+    color: white;
     background-color: #28a745;
+    border-radius: 5px;
+  }
+
+  .test-finished {
+    padding: 10px;
+    color: white;
+    background-color: #007bff;
     border-radius: 5px;
   }
 
@@ -41,6 +59,7 @@
     .quiz-name {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 20px;
       font-size: 20px;
     }
 
@@ -139,11 +158,11 @@
 
         li {
           font-size: 16px;
-          margin-bottom: 12px;
+          margin-bottom: 5px;
           padding: 14px 18px;
           list-style-type: none;
           border: 1px solid #e5f6f0;
-          border-radius: 10px;
+          border-radius: 5px;
           color: #1c1c1e;
 
           &:hover:not(.answered) {

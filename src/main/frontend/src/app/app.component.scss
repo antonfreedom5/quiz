@@ -1,14 +1,25 @@
 .header {
   background: white;
   color: black;
-  padding: 1rem;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
 
+  div {
+    width: 60%;
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    width: 75px;
+    margin-right: 10px;
+  }
+
   span {
-    font-size: 30px;
+    font-size: 20px;
     cursor: pointer;
   }
 }

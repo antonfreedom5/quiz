@@ -7,16 +7,20 @@ html, body {
 body {
   width: 80%;
   margin: 0 auto;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 @media (max-width: 768px) {
+  footer {
+    display: none;
+  }
+
   body {
     width: 100%;
   }
 
-  .desktop-only {
-    display: none;
+  main {
+    padding: 10px !important;
   }
 
   .quiz-answer {

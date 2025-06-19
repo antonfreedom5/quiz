@@ -7,6 +7,7 @@ import {ReportModel} from "../../models/report.model";
 import {ReportHttpService} from "../../services/http/report.http.service";
 import {QuizHttpService} from "../../services/http/quiz.http.service";
 import {QuizModel} from "../../models/quiz.model";
+import { TelegramService } from "../../services/telegram.service";
 
 @Component({
   selector: 'app-quiz',
@@ -35,7 +36,8 @@ export class QuizComponent implements OnInit {
               private readonly quizHttpService: QuizHttpService,
               private readonly reportHttpService: ReportHttpService,
               private readonly activatedRoute: ActivatedRoute,
-              private readonly router: Router) {}
+              private readonly router: Router,
+              private readonly telegramService: TelegramService) {}
 
   ngOnInit() {
     this.quizId = +this.activatedRoute.snapshot.params['quizId'];
@@ -49,6 +51,19 @@ export class QuizComponent implements OnInit {
         this.currentQuestion = questions[0];
       });
     this.startDate = new Date();
+    this.telegramService.backButton.show();
+    this.telegramService.backButton.onClick(() => this.router.navigate(['quiz-list']));
+  }
+
+  getDuration = (): string => {
+    let totalSeconds = this.report?.duration
+    if (totalSeconds) {
+      const seconds = Math.floor(totalSeconds);
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${String(mins).padStart(2, '0')} мин, ${String(secs).padStart(2, '0')} сек`;
+    }
+    return '';
   }
 
   public selectQuestion = (index: number): void => {
@@ -82,7 +97,7 @@ export class QuizComponent implements OnInit {
         endDate,
         quizId: this.quizId,
         userEmail: '',
-        userName: '',
+        userName: this.telegramService?.tg?.initDataUnsafe?.user?.username,
         userId: '',
         userIp: '',
         userPhone: '',
@@ -118,7 +133,7 @@ export class QuizComponent implements OnInit {
         return;
       }
     }
-    // this.saveReport();
+    this.saveReport();
   }
 
   private updateCurrentQuestion = (cardRefs: QueryList<ElementRef>, index: number): void => {

@@ -2,7 +2,7 @@
 
   <div class="quiz-header">
     <div class="quiz-name">
-      <p>{{quiz.title}}</p>
+      <p>{{quiz?.title}}</p>
       <cd-timer *ngIf="quiz?.exam" [countdown]="true" format="intelli" [startTime]="EXAM_TIME_SECONDS" (onComplete)="stopTime()"></cd-timer>
     </div>
     <div class="question-carousel">
@@ -47,30 +47,26 @@
 </div>
 
 <ng-template #reportTemplate>
-  <div *ngIf="quiz.exam && wrongAnswerCount >= 2">
-    <p class="exam-failed">Экзамен провален</p>
+  <div class="exam-failed" *ngIf="quiz.exam && wrongAnswerCount >= 2">
+    <h2>Экзамен провален</h2>
     <p>Во время экзамена допускается совершить только одну ошибку</p>
-    <button mat-raised-button (click)="startAgain()">Пройти заново</button>
   </div>
 
-  <div *ngIf="quiz.exam && wrongAnswerCount < 2 && !isTimeEnd">
-    <p class="exam-passed">Экзамен пройден</p>
+  <div class="exam-passed" *ngIf="quiz.exam && wrongAnswerCount < 2 && !isTimeEnd">
+    <h2>Экзамен пройден</h2>
     <p>Правильных ответов {{ rightAnswerCount }} из {{questions.length}}</p>
-    <p>Продолжительность: {{ report.duration }} секунд</p>
-    <button mat-raised-button (click)="startAgain()">Пройти заново</button>
+    <p>Продолжительность: {{ getDuration() }} секунд</p>
   </div>
 
-  <div *ngIf="quiz.exam && isTimeEnd">
+  <div class="exam-failed" *ngIf="quiz.exam && isTimeEnd">
+    <h2>Экзамен провален</h2>
     <p>Не хватило совсем чуть-чуть :(</p>
-    <button mat-raised-button (click)="startAgain()">Пройти заново</button>
   </div>
 
-  <div *ngIf="!quiz.exam">
+  <div class="test-finished" *ngIf="!quiz.exam">
+    <h2>Неплохой результат</h2>
     <p>Правильных ответов {{ rightAnswerCount }} из {{questions.length}}</p>
-    <p>Продолжительность: {{ report.duration }} секунд</p>
-    <div class="quiz-buttons">
-      <button mat-raised-button (click)="startAgain()">Пройти заново</button>
-      <button mat-raised-button (click)="chooseAnotherQuiz()">Выбрать другой тест</button>
-    </div>
+    <p>Продолжительность: {{ getDuration() }}</p>
   </div>
+  <button mat-raised-button (click)="startAgain()">Пройти заново</button>
 </ng-template>

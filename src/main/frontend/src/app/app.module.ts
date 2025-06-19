@@ -21,6 +21,7 @@ import { MatListModule } from "@angular/material/list";
 import { ReportsComponent } from "./pages/reports/reports.component";
 import { MatTableModule } from "@angular/material/table";
 import {CdTimerModule} from "angular-cd-timer";
+import { TelegramService } from "./services/telegram.service";
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import {CdTimerModule} from "angular-cd-timer";
     CategoryHttpService,
     QuestionHttpService,
     ReportHttpService,
+    TelegramService,
     provideAnimationsAsync()
   ],
   bootstrap: [
